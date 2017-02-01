@@ -76,11 +76,12 @@ class Cursor
   end
 
   def handle_key(key_pressed)
+
     case key_pressed
     when :return, :space
       return @cursor_pos
     when :left, :down, :right, :up
-      update_pos(MOVE[key_pressed])
+      update_pos(MOVES[key_pressed])
       return nil
     when :ctrl_c
       Process.exit(0)
@@ -88,7 +89,12 @@ class Cursor
   end
 
   def update_pos(diff)
-    diff = @board.in_bound(diff)
-    @cursor_pos = diff
+    # diff = @board.in_bound(diff)
+    pos = @cursor_pos.dup
+    pos[0] += diff[0]
+    pos[1] += diff[1]
+    @cursor_pos = pos if pos.all? { |val| val.between?(0,7) }
+
   end
+
 end

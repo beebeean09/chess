@@ -6,7 +6,7 @@ class Board
   SIZE = 8
   attr_reader :board
   def initialize
-    @board = Array.new(SIZE) { Array.new(SIZE) }
+    @board = Array.new(SIZE) { Array.new(SIZE){"SPACE".green} }
     @position = NullPiece.new
     fill_board
   end
@@ -28,22 +28,22 @@ class Board
     (0..7).each do |idx|
       @pawn << [1, idx] << [6, idx]
     end
-    @rook.each { |x,y| @board[x][y] = (x < 7 ? "rook".red : "rook".black ) }
-    @knight.each { |x,y| @board[x][y] = (x < 7 ? "knight".red : "knight".black) }
-    @bishop.each { |x,y| @board[x][y] = (x < 7 ? "bishop".red : "bishop".black) }
-    @queen.each { |x,y| @board[x][y] = (x < 7 ? "queen".red : "queen".black) }
-    @king.each { |x,y| @board[x][y] = (x < 7 ? "king".red : "king".black) }
-    @pawn.each { |x,y| @board[x][y] = (x < 6 ? "pawn".red : "pawn".black) }
+    @rook.each { |pos| self[pos] = (pos[0] < 7 ? "rook".red : "rook".black ) }
+    @knight.each { |pos| self[pos] = (pos[0] < 7 ? "knight".red : "knight".black) }
+    @bishop.each { |pos| self[pos] = (pos[0] < 7 ? "bishop".red : "bishop".black) }
+    @queen.each { |pos| self[pos] = (pos[0] < 7 ? "queen".red : "queen".black) }
+    @king.each { |pos| self[pos] = (pos[0] < 7 ? "king".red : "king".black) }
+    @pawn.each { |pos| self[pos] = (pos[0] < 6 ? "pawn".red : "pawn".black) }
   end
 
   def []=(pos, str)
-    x, y = pos
+    x,y = pos
     @board[x][y] = str
   end
 
   def [](pos)
-    x,y = pos
-    @board[x][y]
+    x,_ = pos
+    @board[x]
   end
 
   def length_check pos,str
@@ -77,5 +77,5 @@ class Board
   end
 end
 
-board = Board.new
-board.move_piece([9],[1,2])
+# board = Board.new
+# board.move_piece([9],[1,2])
